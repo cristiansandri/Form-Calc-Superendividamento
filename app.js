@@ -240,7 +240,9 @@ function renderizarGrafico(rendaBruta, rendaLivrePosDescontos, totalDividas, com
             labels: { color: '#fff', font: { family: 'Figtree' } }
           },
           datalabels: {
+            anchor: 'start',
             color: '#fff',
+            align: 'right',
             font: { family: 'Figtree', weight: 'bold', size: isMobile ? 10 : 12 },
             formatter: function(value) { return value > 0 ? formatBrl(value) : ''; },
             display: function(context) {
