@@ -1,0 +1,391 @@
+* {
+    font-family: "Figtree", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+a {
+    color: var(--primaria);
+    text-decoration: none;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    background-color: rgba(226, 232, 240, 0.0);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #d4d4d4;
+    border-radius: 15px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+/* ========= VARIÁVEIS DE CORES ======== */
+:root {
+    --primaria: #ffbb00;
+    --secundaria: #d4230c;
+    --escuro: #252525;
+    --maisescuro: #181818;
+    --claro: #e2e8f0;
+    --quaseclaro: #ebebebdc;
+    --vidro: rgba(255, 255, 255, 0.1);
+    --vidro-escuro: rgba(28, 19, 10, 0.6);
+}
+
+body {
+    background-color: var(--maisescuro);
+    background-image: url(https://martinsfelix.com.br/wp-content/uploads/2026/04/background-laranja.webp);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: var(--claro);
+}
+
+.form-section {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sem-scroll {
+    overflow: hidden;
+}
+
+.formulario {
+    background: var(--vidro-escuro);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--vidro);
+    border-radius: 20px;
+    padding: 30px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+    text-align: center;
+    margin: 10px;
+}
+
+.formulario h1 {
+    color: var(--primaria);
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.formulario h2 {
+    color: var(--quaseclaro);
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.formulario p {
+    color: var(--quaseclaro);
+    font-size: 0.7rem;
+    margin: 25px;
+    font-weight: lighter;
+}
+
+/* ======== INPUTS E SELECTS ======== */
+.input,
+select,
+.entrada input,
+.campo-parcela {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--vidro);
+    color: var(--claro);
+    padding: 12px 15px;
+    border-radius: 10px;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+    margin-bottom: 15px;
+}
+
+select option {
+    background-color: var(--escuro);
+    color: var(--claro);
+}
+
+.input:focus,
+select:focus,
+.entrada input:focus,
+.campo-parcela:focus {
+    border-color: var(--primaria);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 10px rgba(0, 183, 255, 0.2);
+}
+
+/* ======== BOTÕES GERAIS ========== */
+button {
+    background-color: var(--primaria);
+    color: var(--escuro);
+    font-weight: bold;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 10px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #ff8929;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 136, 0, 0.4);
+}
+
+.btn-secundario {
+    background-color: #555;
+    color: #fff;
+}
+
+.btn-secundario:hover {
+    background-color: #777;
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+}
+
+.btn-perigo {
+    background-color: var(--secundaria);
+    color: #fff;
+}
+
+.btn-perigo:hover {
+    background-color: #ff3b22;
+    box-shadow: 0 5px 15px rgba(212, 35, 12, 0.4);
+}
+
+.btn-whatsapp {
+    background-color: #25D366;
+    justify-content: center;
+    color: #fff;
+    margin-top: 15px;
+}
+
+.btn-whatsapp:hover {
+    background-color: #1eb954;
+    box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+}
+
+/* ======== MODAL ======== */
+dialog {
+    margin: auto;
+    background: var(--vidro-escuro);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--primaria);
+    border-radius: 20px;
+    padding: 30px;
+    width: 90%;
+    max-width: 900px;
+    color: var(--claro);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(3px);
+}
+
+.close-modal {
+    position: sticky;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 15px;
+    font-size: 1rem;
+    z-index: 100;
+    background: var(--vidro-escuro);
+    backdrop-filter: blur(3px);
+    color: var(--claro);
+    border: 1px solid var(--vidro);
+}
+
+.close-modal:hover {
+    background-color: var(--secundaria);
+    color: #fff;
+}
+
+
+.calculadora h1 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.calculadora p.info {
+    text-align: center;
+    color: var(--quaseclaro);
+    font-size: 0.9rem;
+    margin-bottom: 25px;
+}
+
+/* ======== CALCULADORA INPUTS ======== */
+.entrada {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    
+}
+
+.entrada label {
+    font-size: 0.9rem;
+    color: var(--primaria);
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.parcelas-area {
+    background: var(--vidro);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.parcelas-area label {
+    color: var(--primaria);
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.parcela {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.botoes-parcelas {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.mensagem-erro {
+    color: #ff4d4d;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 15px;
+    min-height: 20px;
+}
+
+@media (max-width: 600px) {
+
+    .entrada,
+    .parcela {
+        grid-template-columns: 1fr;
+        gap: 5px;
+    }
+
+    .botoes-parcelas {
+        flex-direction: column;
+    }
+}
+
+/* ======== RESULTADOS ======== */
+.output-section {
+    display: none;
+    margin-top: 30px;
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.resultado-grid-super {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+@media (max-width: 800px) {
+    .resultado-grid-super {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 500px) {
+    .resultado-grid-super {
+        grid-template-columns: 1fr;
+    }
+}
+
+.quadro {
+    background: var(--vidro);
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 3px solid var(--primaria);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.quadro.verde {
+    border-bottom-color: #28a745;
+}
+
+.quadro.vermelho {
+    border-bottom-color: #e74c3c;
+}
+
+.texto-explicativo {
+    background: rgba(105, 105, 105, 0.2);
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--claro);
+    border-left: 4px solid var(--primaria);
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.texto-explicativo.verde {
+    border-left-color: #28a745;
+}
+
+.texto-explicativo.vermelho {
+    border-left-color: #e74c3c;
+}
+
+/* Gráfico */
+#grafico-renda-container {
+    width: 100%;
+    text-align: center;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+    border: 1px solid var(--vidro);
+}

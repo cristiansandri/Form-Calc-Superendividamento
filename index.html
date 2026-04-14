@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <title>Avaliação Superendividamento</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap"
+        rel="stylesheet">
+
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+
+        fbq('init', 'SEU_PIXEL_AQUI'); // Substitua pelo seu Pixel
+        fbq('track', 'PageView');
+    </script>
+</head>
+
+<body>
+    <section class="form-section">
+        <form id="form-superendividamento" class="formulario">
+            <div>
+                <h1>Avaliação Lei do Superendividamento</h1>
+                <h2>Insira suas informações para acessar a calculadora</h2>
+
+                <input class="input" type="text" name="nome" placeholder="Nome Completo" required><br><br>
+                <input class="input" type="email" name="email" placeholder="Email" required><br><br>
+                <input class="input" type="tel" id="telefone" name="telefone" placeholder="Telefone" maxlength="15"
+                    required><br><br>
+
+                <select id="valor-divida" name="valor_divida" required>
+                    <option value="" disabled selected>Estimativa total das dívidas</option>
+                    <option value="Abaixo de R$50 mil">Abaixo de R$50 mil</option>
+                    <option value="Entre R$50 mil e R$150 mil">Entre R$50 mil e R$150 mil</option>
+                    <option value="Acima de R$150 mil">Acima de R$150 mil</option>
+                </select>
+
+                <br><br>
+
+                <button type="button" class="btn-prosseguir" data-modal="calc-super"
+                    onclick="processarFormulario(this)">Prosseguir</button>
+                <p>Ao clicar em <b>Prosseguir</b>, você concorda em fornecer suas informações e continuar com a
+                    avaliação.</p>
+            </div>
+        </form>
+    </section>
+
+    <dialog id="calc-super">
+        <button class="close-modal" type="button">
+            <i class="fa-solid fa-x"></i>
+        </button>
+
+        <div class="calculadora">
+            <h1><b>Calculadora de Comprometimento de Renda</b></h1>
+            <p class="info">
+                Descubra se você se enquadra na <b>Lei do Superendividamento</b>. O limite saudável de comprometimento
+                da sua renda com dívidas é de 35%.
+            </p>
+
+            <div class="input-section">
+                <div class="entrada">
+                    <div>
+                        <label for="renda-bruta">Renda Bruta Mensal:</label>
+                        <input type="text" id="renda-bruta" placeholder="R$ 0,00" oninput="formatarMoeda(this)" />
+                    </div>
+                    <div>
+                        <label for="renda-liquida">Renda Líquida Mensal:</label>
+                        <input type="text" id="renda-liquida" placeholder="R$ 0,00" oninput="formatarMoeda(this)" />
+                    </div>
+                </div>
+
+                <div id="parcelas-container" class="parcelas-area">
+                    <label>Parcelas de Dívidas:</label>
+                    <div class="parcela">
+                        <input type="text" placeholder="Valor da Parcela" class="campo-parcela"
+                            oninput="formatarMoeda(this)" />
+                        <select class="tipo-parcela">
+                            <option value="consignado">Empréstimo Consignado</option>
+                            <option value="pessoal">Empréstimo Pessoal</option>
+                            <option value="cheque">Parcela Cheque Especial</option>
+                            <option value="cartao">Parcela Cartão de Crédito</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="botoes-parcelas">
+                    <button onclick="adicionarParcela()" class="btn-secundario" id="adicionar-parcela">+ Adicionar
+                        Parcela</button>
+                    <button id="remover-parcela" class="btn-perigo" onclick="removerParcela()" style="display: none;">-
+                        Remover Parcela</button>
+                </div>
+
+                <div class="mensagem-erro" id="mensagem-erro"></div>
+
+                <button onclick="calcularResultados()" id="calcular-btn">Calcular Comprometimento</button>
+            </div>
+
+            <div class="output-section" id="resultados">
+                <div class="resultado-grid-super">
+                    <div class="quadro" id="resultado-1"></div>
+                    <div class="quadro" id="resultado-2"></div>
+                    <div class="quadro" id="resultado-3"></div>
+                    <div class="quadro" id="resultado-4"></div>
+                </div>
+
+                <div id="grafico-renda-container">
+                    <canvas id="grafico-renda"></canvas>
+                </div>
+
+                <div id="mensagem-status" class="texto-explicativo"></div>
+
+                <button id="whatsapp-btn" class="btn-whatsapp" onclick="redirecionarWhatsApp()" style="display: none;">
+                    <i class="fa-brands fa-whatsapp"></i> Contato via WhatsApp
+                </button>
+            </div>
+        </div>
+    </dialog>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
