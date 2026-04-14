@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <title>Avaliação Superendividamento</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap"
+        rel="stylesheet">
+
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+
+        fbq('init', '1274721174195374');
+        fbq('track', 'PageView');
+    </script>
+    <noscript>
+        <img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=1274721174195374&ev=PageView&noscript=1" />
+    </noscript>
+</head>
+
+<style>
+    * {
+        font-family: "Figtree", sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    a {
+        color: var(--primaria);
+        text-decoration: none;
+    }
+
+    ::-webkit-scrollbar {
+        width: 10px;
+        background-color: rgba(226, 232, 240, 0.0);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #d4d4d4;
+        border-radius: 15px;
+        border: 2px solid transparent;
+        background-clip: padding-box;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
+    }
+
+    /* ========= VARIÁVEIS DE CORES ======== */
+    :root {
+        --primaria: #ffbb00;
+        --secundaria: #d4230c;
+        --escuro: #252525;
+        --maisescuro: #181818;
+        --claro: #e2e8f0;
+        --quaseclaro: #ebebebdc;
+        --vidro: rgba(255, 255, 255, 0.1);
+        --vidro-escuro: rgba(28, 19, 10, 0.6);
+    }
+
+    body {
+        background-image: url(https://martinsfelix.com.br/wp-content/uploads/2026/04/background-laranja.webp);
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-color: var(--maisescuro);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        color: var(--claro);
+    }
+
+    .form-section {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .sem-scroll {
+        overflow: hidden;
+    }
+
+    .formulario {
+        background: var(--vidro-escuro);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--vidro);
+        border-radius: 20px;
+        padding: 30px;
+        width: 100%;
+        max-width: 450px;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+        text-align: center;
+        margin: 10px;
+    }
+
+    .formulario h1 {
+        color: var(--primaria);
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+    }
+
+    .formulario h2 {
+        color: var(--quaseclaro);
+        font-size: 1rem;
+        margin-bottom: 10px;
+    }
+
+    .formulario p {
+        color: var(--quaseclaro);
+        font-size: 0.7rem;
+        margin: 25px;
+        font-weight: lighter;
+    }
+
+    /* ======== INPUTS E SELECTS ======== */
+    .input,
+    select,
+    .entrada input,
+    .campo-parcela {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--vidro);
+        color: var(--claro);
+        padding: 12px 15px;
+        border-radius: 10px;
+        font-size: 1rem;
+        outline: none;
+        transition: all 0.3s ease;
+        margin-bottom: 10px;
+    }
+
+    select option {
+        background-color: var(--escuro);
+        color: var(--claro);
+    }
+
+    .input:focus,
+    select:focus,
+    .entrada input:focus,
+    .campo-parcela:focus {
+        border-color: var(--primaria);
+        background: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 10px rgba(0, 183, 255, 0.2);
+    }
+
+    /* ======== BOTÕES GERAIS ========== */
+    button {
+        background-color: var(--primaria);
+        color: var(--escuro);
+        font-weight: bold;
+        font-size: 1.1rem;
+        border: none;
+        border-radius: 10px;
+        padding: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+
+    button:hover {
+        background-color: #ff8929;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 136, 0, 0.4);
+    }
+
+    .btn-secundario {
+        background-color: #555;
+        color: #fff;
+    }
+
+    .btn-secundario:hover {
+        background-color: #777;
+        box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-perigo {
+        background-color: var(--secundaria);
+        color: #fff;
+    }
+
+    .btn-perigo:hover {
+        background-color: #ff3b22;
+        box-shadow: 0 5px 15px rgba(212, 35, 12, 0.4);
+    }
+
+    .btn-whatsapp {
+        background-color: #25D366;
+        justify-content: center;
+        color: #fff;
+        margin-top: 15px;
+    }
+
+    .btn-whatsapp:hover {
+        background-color: #1eb954;
+        box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+    }
+
+    /* ======== MODAL ======== */
+    dialog {
+        margin: auto;
+        background: var(--vidro-escuro);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid var(--primaria);
+        border-radius: 20px;
+        padding: 30px;
+        width: 90%;
+        max-width: 900px;
+        color: var(--claro);
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8);
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    dialog::backdrop {
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(3px);
+    }
+
+    .close-modal {
+        position: sticky;
+        top: 0;
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        border-radius: 15px;
+        font-size: 1rem;
+        z-index: 100;
+        background: var(--vidro-escuro);
+        backdrop-filter: blur(3px);
+        color: var(--claro);
+        border: 1px solid var(--vidro);
+    }
+
+    .close-modal:hover {
+        background-color: var(--secundaria);
+        color: #fff;
+    }
+
+
+    .calculadora h1 {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .calculadora p.info {
+        text-align: center;
+        color: var(--quaseclaro);
+        font-size: 0.9rem;
+        margin-bottom: 25px;
+    }
+
+    /* ======== CALCULADORA INPUTS ======== */
+    .entrada {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+
+    }
+
+    .entrada label {
+        font-size: 0.9rem;
+        color: var(--primaria);
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .parcelas-area {
+        background: var(--vidro);
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .parcelas-area label {
+        color: var(--primaria);
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .parcela {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-bottom: 10px;
+    }
+
+    .botoes-parcelas {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .mensagem-erro {
+        color: #ff4d4d;
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 15px;
+        min-height: 20px;
+    }
+
+    @media (max-width: 600px) {
+
+        .entrada,
+        .parcela {
+            grid-template-columns: 1fr;
+            gap: 5px;
+        }
+
+        .botoes-parcelas {
+            flex-direction: column;
+        }
+    }
+
+    /* ======== RESULTADOS ======== */
+    .output-section {
+        display: none;
+        margin-top: 30px;
+        animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .resultado-grid-super {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    @media (max-width: 800px) {
+        .resultado-grid-super {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 500px) {
+        .resultado-grid-super {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .quadro {
+        background: var(--vidro);
+        padding: 15px;
+        border-radius: 12px;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-bottom: 3px solid var(--primaria);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .quadro.verde {
+        border-bottom-color: #28a745;
+    }
+
+    .quadro.vermelho {
+        border-bottom-color: #e74c3c;
+    }
+
+    .texto-explicativo {
+        background: rgba(105, 105, 105, 0.2);
+        padding: 20px;
+        border-radius: 10px;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: var(--claro);
+        border-left: 4px solid var(--primaria);
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    .texto-explicativo.verde {
+        border-left-color: #28a745;
+    }
+
+    .texto-explicativo.vermelho {
+        border-left-color: #e74c3c;
+    }
+
+    /* Gráfico */
+    #grafico-renda-container {
+        width: 100%;
+        text-align: center;
+        height: 300px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 25px;
+        border: 1px solid var(--vidro);
+    }
+</style>
+
+<body>
+    <section class="form-section">
+        <form id="form-superendividamento" class="formulario">
+            <div>
+                <img src="https://martinsfelix.com.br/wp-content/uploads/2025/09/logo-escritorio-editaveisVariacao-Redonda.webp"
+                    alt="Logo Martins Felix" style="width: 40px;">
+                <h1>Avaliação Lei do Superendividamento</h1>
+                <h2>Insira suas informações para acessar a calculadora</h2>
+
+                <input class="input" type="text" name="nome" placeholder="Nome Completo" required><br><br>
+                <input class="input" type="email" name="email" placeholder="Email" required><br><br>
+                <input class="input" type="tel" id="telefone" name="telefone" placeholder="Telefone" maxlength="15"
+                    required><br><br>
+
+                <select id="valor-divida" name="valor_divida" required>
+                    <option value="" disabled selected>Estimativa total das dívidas</option>
+                    <option value="Abaixo de R$50 mil">Abaixo de R$50 mil</option>
+                    <option value="Entre R$50 mil e R$150 mil">Entre R$50 mil e R$150 mil</option>
+                    <option value="Acima de R$150 mil">Acima de R$150 mil</option>
+                </select>
+
+                <br><br>
+
+                <button type="button" class="btn-prosseguir" data-modal="calc-super"
+                    onclick="processarFormulario(this)">Prosseguir</button>
+                <p>Ao clicar em <b>Prosseguir</b>, você concorda em fornecer suas informações e continuar com a
+                    avaliação.</p>
+                <p><a href="https://martinsfelix.com.br/politica-de-privacidade/" target="_blank" rel="noopener noreferrer">Política de Privacidade</a></b>
+                </p>
+            </div>
+        </form>
+    </section>
+
+    <dialog id="calc-super">
+        <button class="close-modal" type="button">
+            <i class="fa-solid fa-x"></i>
+        </button>
+
+        <div class="calculadora">
+            <h1><b>Calculadora de Comprometimento de Renda</b></h1>
+            <p class="info">
+                Descubra se você se enquadra na <b>Lei do Superendividamento</b>. O limite saudável de comprometimento
+                da sua renda com dívidas é de 35%.
+            </p>
+
+            <div class="input-section">
+                <div class="entrada">
+                    <div>
+                        <label for="renda-bruta">Renda Bruta Mensal:</label>
+                        <input type="text" id="renda-bruta" placeholder="R$ 0,00" oninput="formatarMoeda(this)" />
+                    </div>
+                    <div>
+                        <label for="renda-liquida">Renda Líquida Mensal:</label>
+                        <input type="text" id="renda-liquida" placeholder="R$ 0,00" oninput="formatarMoeda(this)" />
+                    </div>
+                </div>
+
+                <div id="parcelas-container" class="parcelas-area">
+                    <label>Parcelas de Dívidas:</label>
+                    <div class="parcela">
+                        <input type="text" placeholder="Valor da Parcela" class="campo-parcela"
+                            oninput="formatarMoeda(this)" />
+                        <select class="tipo-parcela">
+                            <option value="consignado">Empréstimo Consignado</option>
+                            <option value="pessoal">Empréstimo Pessoal</option>
+                            <option value="cheque">Parcela Cheque Especial</option>
+                            <option value="cartao">Parcela Cartão de Crédito</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="botoes-parcelas">
+                    <button onclick="adicionarParcela()" class="btn-secundario" id="adicionar-parcela">+ Adicionar
+                        Parcela</button>
+                    <button id="remover-parcela" class="btn-perigo" onclick="removerParcela()" style="display: none;">-
+                        Remover Parcela</button>
+                </div>
+
+                <div class="mensagem-erro" id="mensagem-erro"></div>
+
+                <button onclick="calcularResultados()" id="calcular-btn">Calcular Comprometimento</button>
+            </div>
+
+            <div class="output-section" id="resultados">
+                <div class="resultado-grid-super">
+                    <div class="quadro" id="resultado-1"></div>
+                    <div class="quadro" id="resultado-2"></div>
+                    <div class="quadro" id="resultado-3"></div>
+                    <div class="quadro" id="resultado-4"></div>
+                </div>
+
+                <div id="grafico-renda-container">
+                    <canvas id="grafico-renda"></canvas>
+                </div>
+
+                <div id="mensagem-status" class="texto-explicativo"></div>
+
+                <button id="whatsapp-btn" class="btn-whatsapp" onclick="redirecionarWhatsApp()" style="display: none;">
+                    <i class="fa-brands fa-whatsapp"></i> Contato via WhatsApp
+                </button>
+            </div>
+        </div>
+    </dialog>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+    <script>
+        // ==================== Formatar input Telefone ========================== //
+        const telefoneInput = document.getElementById('telefone');
+        if (telefoneInput) {
+            telefoneInput.addEventListener('input', (e) => {
+                let v = e.target.value.replace(/\D/g, '');
+                v = v.substring(0, 11);
+                if (v.length > 10) { v = v.replace(/^(\d{2})(\d{5})(\d{4})/, '($1) $2-$3'); }
+                else if (v.length > 6) { v = v.replace(/^(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3'); }
+                else if (v.length > 2) { v = v.replace(/^(\d{2})(\d{0,5})/, '($1) $2'); }
+                e.target.value = v;
+            });
+        }
+
+        // ==================== Enviar Evento e Form ========================== //
+        function enviarEvento() {
+            const selecaoDivida = document.getElementById('valor-divida').value;
+            if (selecaoDivida === "Abaixo de R$50 mil") {
+                fbq('trackCustom', 'Lead Não Qualificado', { valor: selecaoDivida });
+            } else if (selecaoDivida === "Entre R$50 mil e R$150 mil" || selecaoDivida === "Acima de R$150 mil") {
+                fbq('track', 'Lead Qualificado', {
+                    content_category: 'Calculadora de Superendividamento',
+                    status: 'Qualificado'
+                });
+            }
+        }
+
+        // URL da função no Apps Script atrelada a planilha "[MFX] Leads - Calc. Juros Abusivos"
+        async function enviarForm() {
+            const form = document.getElementById('form-superendividamento');
+            const formData = new FormData(form);
+
+            function getCookie(name) {
+                let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+                if (match) return match[2];
+                return '';
+            }
+
+            formData.append('userAgent', navigator.userAgent);
+            formData.append('fbp', getCookie('_fbp'));
+            formData.append('fbc', getCookie('_fbc'));
+
+            const url = "https://script.google.com/macros/s/AKfycbyIdWribCzzQ6r5TX0W0K416aT_hQQ5UU2E9cHtyAzjZQBNqU7sGhCd5DUTDipeex1A/exec"; // URL do Apps Script 
+
+            try {
+                await fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                    mode: 'no-cors'
+                });
+                console.log("Dados enviados com sucesso!");
+            } catch (error) {
+                console.error("Erro ao enviar formulário:", error);
+            }
+        }
+
+        // ========== Unificação das funções e Validação para abrir modal =========== //
+        function processarFormulario(botao) {
+            const form = document.getElementById('form-superendividamento');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            enviarEvento();
+            enviarForm();
+
+            const modalId = botao.getAttribute('data-modal');
+            const modal = document.getElementById(modalId);
+
+            if (modal) {
+                modal.showModal();
+                document.body.classList.add('sem-scroll');
+            }
+
+
+        }
+
+        // ==================== Fechar POPUP ==================== //
+        const closeButtons = document.querySelectorAll('.close-modal');
+        closeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const modal = button.closest('dialog');
+                if (modal) {
+                    modal.close();
+                    document.body.classList.remove('sem-scroll');
+                };
+            });
+        });
+
+        // ================= Funcionalidades da Calculadora ================= //
+        function formatarMoeda(input) {
+            let valor = input.value.replace(/\D/g, "");
+            if (valor.length === 0) { input.value = ""; return; }
+            valor = (parseFloat(valor) / 100).toFixed(2);
+            valor = valor.replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            input.value = "R$ " + valor;
+        }
+
+        function removerFormatacao(valor) {
+            if (!valor || typeof valor !== 'string') return 0;
+            const valorNumerico = valor.replace("R$", "").replace(/\./g, "").replace(",", ".");
+            return parseFloat(valorNumerico) || 0;
+        }
+
+        // Lógica de Adicionar/Remover Parcelas
+        function adicionarParcela() {
+            const container = document.getElementById("parcelas-container");
+            const novaParcela = document.createElement("div");
+            novaParcela.className = "parcela";
+            novaParcela.innerHTML = `
+      <input type="text" placeholder="Valor da Parcela" class="campo-parcela" oninput="formatarMoeda(this)" />
+      <select class="tipo-parcela">
+        <option value="consignado">Empréstimo Consignado</option>
+        <option value="pessoal">Empréstimo Pessoal</option>
+        <option value="cheque">Parcela Cheque Especial</option>
+        <option value="cartao">Parcela Cartão de Crédito</option>
+      </select>
+    `;
+            container.appendChild(novaParcela);
+
+            if (container.querySelectorAll(".parcela").length > 1) {
+                document.getElementById("remover-parcela").style.display = "block";
+            }
+        }
+
+        function removerParcela() {
+            const container = document.getElementById("parcelas-container");
+            const parcelas = container.querySelectorAll(".parcela");
+            if (parcelas.length > 1) {
+                container.removeChild(parcelas[parcelas.length - 1]);
+            }
+            if (container.querySelectorAll(".parcela").length === 1) {
+                document.getElementById("remover-parcela").style.display = "none";
+            }
+        }
+
+        // Lógica de Cálculo
+        let grafico;
+
+        function calcularResultados() {
+            const erroContainer = document.getElementById("mensagem-erro");
+            erroContainer.innerText = "";
+
+            let totalDividas = 0;
+            const parcelas = document.querySelectorAll(".parcela");
+            parcelas.forEach(p => {
+                const valor = removerFormatacao(p.querySelector("input").value);
+                if (!isNaN(valor)) totalDividas += valor;
+            });
+
+            const rendaBrutaInput = document.getElementById("renda-bruta");
+            const rendaLiquidaInput = document.getElementById("renda-liquida");
+            const rendaBruta = removerFormatacao(rendaBrutaInput.value);
+            const rendaLivrePosDescontos = removerFormatacao(rendaLiquidaInput.value);
+
+            if (isNaN(rendaBruta) || rendaBruta <= 0 || isNaN(rendaLivrePosDescontos) || rendaLivrePosDescontos <= 0) {
+                erroContainer.innerHTML = "Por favor, insira valores válidos e positivos para Renda Bruta e Renda Líquida.";
+                document.getElementById("resultados").style.display = "none";
+                if (grafico) grafico.destroy();
+                return;
+            }
+
+            const descontosObrigatoriosNaoDivida = rendaBruta - totalDividas - rendaLivrePosDescontos;
+            const descontosObrigatoriosPlot = Math.max(0, descontosObrigatoriosNaoDivida);
+            const rendaBaseParaComprometimento = rendaBruta - descontosObrigatoriosNaoDivida;
+
+            const limite35Percent = rendaBaseParaComprometimento * 0.35;
+            const percentualComprometimento = (totalDividas / rendaBaseParaComprometimento) * 100;
+            const reducaoPosAcao = Math.max(0, totalDividas - limite35Percent);
+            const comprometimentoPosAcao = totalDividas - reducaoPosAcao;
+
+            document.getElementById("resultados").style.display = "block";
+            const formatBrl = val => val.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
+            document.getElementById("resultado-1").innerHTML = `<span style="font-size:1.5rem; font-weight:bold; color:#fff">${percentualComprometimento.toFixed(2)}%</span><br><span style="font-size:0.8rem; color:#bbb">Comprometimento</span>`;
+            document.getElementById("resultado-1").className = "quadro " + (percentualComprometimento > 35 ? "vermelho" : "verde");
+
+            document.getElementById("resultado-2").innerHTML = `<span style="font-size:1.2rem; font-weight:bold; color:#fff">${formatBrl(totalDividas)}</span><br><span style="font-size:0.8rem; color:#bbb">Total Dívidas</span>`;
+            document.getElementById("resultado-3").innerHTML = `<span style="font-size:1.2rem; font-weight:bold; color:#fff">${formatBrl(reducaoPosAcao)}</span><br><span style="font-size:0.8rem; color:#bbb">Redução c/ Ação</span>`;
+            document.getElementById("resultado-4").innerHTML = `<span style="font-size:1.2rem; font-weight:bold; color:#fff">${formatBrl(comprometimentoPosAcao)}</span><br><span style="font-size:0.8rem; color:#bbb">Após Ação</span>`;
+
+            const mensagem = document.getElementById("mensagem-status");
+            if (percentualComprometimento > 35) {
+                mensagem.className = "texto-explicativo vermelho";
+                mensagem.innerHTML = `<b>Alerta!</b> Seu comprometimento está acima do limite de 35% sobre a renda disponível.<br>Você tem chances reais de se enquadrar na <b>Lei do Superendividamento</b> e reduzir os valores.`;
+                document.getElementById("whatsapp-btn").style.display = "inline-flex";
+            } else {
+                mensagem.className = "texto-explicativo verde";
+                mensagem.innerHTML = `Seu comprometimento está dentro do limite de 35% sobre a renda disponível. No momento, a Lei do Superendividamento pode não se aplicar diretamente ao seu caso.`;
+                document.getElementById("whatsapp-btn").style.display = "none";
+            }
+
+            renderizarGrafico(rendaBruta, rendaLivrePosDescontos, totalDividas, comprometimentoPosAcao, percentualComprometimento, descontosObrigatoriosPlot, reducaoPosAcao);
+        }
+
+        function renderizarGrafico(rendaBruta, rendaLivrePosDescontos, totalDividas, comprometimentoPosAcao, percentualComprometimento, descontosObrigatoriosPlot, reducaoPosAcao) {
+            const formatBrl = val => val.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+            const ctx = document.getElementById('grafico-renda').getContext('2d');
+
+            if (grafico) grafico.destroy();
+
+            if (typeof ChartDataLabels !== 'undefined') {
+                Chart.register(ChartDataLabels);
+            }
+
+            const isMobile = window.innerWidth <= 768;
+            const labels = [['Situação', 'Atual']];
+            if (percentualComprometimento > 35) { labels.push(['Pós-Ação', '(Estimado)']); }
+
+            const datasets = [
+                {
+                    label: 'Descontos Obrigatórios',
+                    data: percentualComprometimento > 35 ? [descontosObrigatoriosPlot, descontosObrigatoriosPlot] : [descontosObrigatoriosPlot],
+                    backgroundColor: '#555'
+                },
+                {
+                    label: 'Parcelas de Dívidas',
+                    data: percentualComprometimento > 35 ? [totalDividas, comprometimentoPosAcao] : [totalDividas],
+                    backgroundColor: '#e74c3c'
+                },
+                {
+                    label: 'Renda Livre',
+                    data: percentualComprometimento > 35 ? [rendaLivrePosDescontos, rendaLivrePosDescontos + reducaoPosAcao] : [rendaLivrePosDescontos],
+                    backgroundColor: '#28a745'
+                }
+            ];
+
+            grafico = new Chart(ctx, {
+                type: 'bar',
+                data: { labels: labels, datasets: datasets },
+                options: {
+                    responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+                    scales: {
+                        x: {
+                            stacked: true,
+                            ticks: { display: false },
+                            grid: { display: false },
+                            max: rendaBruta
+                        },
+                        y: {
+                            stacked: true,
+                            ticks: { color: '#fff', font: { family: 'Figtree', size: isMobile ? 12 : 14 } },
+                            grid: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: '#fff', font: { family: 'Figtree' } }
+                        },
+                        datalabels: {
+                            anchor: 'start',
+                            color: '#fff',
+                            align: 'right',
+                            font: { family: 'Figtree', weight: 'bold', size: isMobile ? 10 : 12 },
+                            formatter: function (value) { return value > 0 ? formatBrl(value) : ''; },
+                            display: function (context) {
+                                const value = context.dataset.data[context.dataIndex];
+                                return value > context.chart.scales.x.max * 0.05; // Só exibe se a barra for larguinha
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function redirecionarWhatsApp() {
+            const comprometimentoAtual = document.getElementById("resultado-1").innerText.replace("Comprometimento", "").trim();
+            const totalDividas = document.getElementById("resultado-2").innerText.replace("Total Dívidas", "").trim();
+            const reducaoPossivel = document.getElementById("resultado-3").innerText.replace("Redução c/ Ação", "").trim();
+            const comprometimentoPosAcao = document.getElementById("resultado-4").innerText.replace("Após Ação", "").trim();
+
+            const mensagemWhatsApp = `Olá! Fiz o cálculo da *Lei do Superendividamento* e o resultado foi:\n\n` +
+                `📊 Comprometimento Atual: ${comprometimentoAtual}\n` +
+                `💸 Total de Dívidas: ${totalDividas}\n` +
+                `📉 Redução Possível: ${reducaoPossivel}\n` +
+                `✅ Comprometimento Pós-Ação: ${comprometimentoPosAcao}\n\n` +
+                `Gostaria de falar com um especialista.`;
+
+            const numeroTelefone = "554284391133";
+            const urlWhatsApp = `https://wa.me/${numeroTelefone}?text=${encodeURIComponent(mensagemWhatsApp)}`;
+            window.open(urlWhatsApp, '_blank');
+        }
+    </script>
+
+</body>
+
+</html>
